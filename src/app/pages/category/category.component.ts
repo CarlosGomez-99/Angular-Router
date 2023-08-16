@@ -36,13 +36,13 @@ export class CategoryComponent {
         })
       )
       .subscribe((data) => {
+        this.offset += this.limit;
         let productsCount = this.products.length;
         if (productsCount === 0) {
           this.products = data;
         } else {
           this.products = this.products.concat(data);
         }
-        this.offset += this.limit;
       });
   }
 }

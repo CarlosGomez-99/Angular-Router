@@ -9,7 +9,7 @@ import { environment } from './../../environments/environment';
 })
 export class CategoriesService {
 
-  private apiUrl = `${environment.API_URL}/api/categories`;
+  private apiUrl = `${environment.API_URL}/api/v1/categories`;
 
   constructor(
     private http: HttpClient
@@ -17,9 +17,9 @@ export class CategoriesService {
 
   getAll(limit?: number, offset?: number) {
     let params = new HttpParams();
-    if (limit && offset) {
+    if (limit !== undefined && offset !== undefined) {
       params = params.set('limit', limit);
-      params = params.set('offset', limit);
+      params = params.set('offset', offset);
     }
     return this.http.get<Category[]>(this.apiUrl, { params });
   }
