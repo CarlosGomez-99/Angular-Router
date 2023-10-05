@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 
@@ -21,28 +21,36 @@ export class CategoryComponent {
     private route: ActivatedRoute,
     private productsService: ProductsService
   ) {
-    this.onLoadMore();
   }
 
-  onLoadMore() {
+  ngOnInit(): void {
     this.route.paramMap
       .pipe(
-        switchMap(params => {
+        switchMap((params) => {
           this.categoryId = params.get('id');
           if (this.categoryId) {
-            return this.productsService.getByCategory(this.categoryId, this.limit, this.offset);
+            return this.productsService.getByCategory(
+              this.categoryId,
+              this.limit,
+              this.offset
+            );
           }
           return [];
         })
       )
       .subscribe((data) => {
-        this.offset += this.limit;
-        let productsCount = this.products.length;
-        if (productsCount === 0) {
-          this.products = data;
-        } else {
-          this.products = this.products.concat(data);
-        }
+        this.products = data;
       });
+  }
+
+  onLoadMore() {
+    if (this.categoryId) {
+      this.productsService
+        .getByCategory(this.categoryId, this.limit, this.offset)
+        .subscribe((data) => {
+          this.products = this.products.concat(data);
+          this.offset += this.limit;
+        });
+    }
   }
 }
