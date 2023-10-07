@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 import { Product } from '../../models/product.model';
@@ -14,9 +15,11 @@ export class HomeComponent implements OnInit {
   products: Product[] = [];
   limit = 10;
   offset = 0;
+  productId: string | null = null;
 
   constructor(
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    private activatedRoute: ActivatedRoute
   ) {
 
   }
@@ -25,6 +28,9 @@ export class HomeComponent implements OnInit {
     this.productsService.getAll(10, 0).subscribe((data) => {
       this.products = data;
       this.offset += this.limit;
+    });
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.productId = params['product'];
     });
   }
 

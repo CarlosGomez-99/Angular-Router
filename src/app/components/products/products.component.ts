@@ -16,11 +16,19 @@ import { ProductsService } from '../../services/products.service';
   styleUrls: ['./products.component.scss'],
 })
 export class ProductsComponent {
+
+  @Input() products: Product[] = [];
+  @Input()
+  set productId(id: string | null) {
+    if (id) {
+      this.onShowDetail(id);
+    }
+  }
+  @Output() loadMore = new EventEmitter();
+
   myShoppingCart: Product[] = [];
   total = 0;
-  @Input() products: Product[] = [];
   showProductDetail = false;
-  @Output() loadMore = new EventEmitter();
   productChosen: Product | null = null;
   statusDetail: 'loading' | 'success' | 'error' | 'init' = 'init';
 
@@ -42,7 +50,9 @@ export class ProductsComponent {
 
   onShowDetail(id: string) {
     this.statusDetail = 'loading';
-    this.toggleProductDetail();
+    if (!this.showProductDetail) {
+      this.showProductDetail = true;
+    }
     this.productsService.getOne(id).subscribe(
       (data) => {
         this.productChosen = data;

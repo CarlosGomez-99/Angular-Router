@@ -7,11 +7,12 @@ import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-category',
-  template: '<app-products [products]="products" (loadMore)="onLoadMore()"></app-products>',
+  template: '<app-products [productId]="productId" [products]="products" (loadMore)="onLoadMore()"></app-products>',
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent {
 
+  productId: string | null = null;
   categoryId: string | null = null;
   limit = 10;
   offset = 0;
@@ -41,6 +42,10 @@ export class CategoryComponent {
       .subscribe((data) => {
         this.products = data;
       });
+    this.route.queryParamMap.subscribe((params) => {
+      this.productId = params.get('product');
+    });
+
   }
 
   onLoadMore() {
