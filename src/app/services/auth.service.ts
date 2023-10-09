@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { switchMap, tap } from 'rxjs/operators';
 
 import { environment } from './../../environments/environment';
@@ -35,5 +35,9 @@ export class AuthService {
     .pipe(
       switchMap(() => this.getProfile()),
     )
+  }
+
+  logout() {
+    this.tokenService.removeToken();
   }
 }
