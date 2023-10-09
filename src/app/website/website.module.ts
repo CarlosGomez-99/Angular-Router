@@ -4,7 +4,6 @@ import { SwiperModule } from 'swiper/angular';
 
 import { WebsiteRoutingModule } from './website-routing.module';
 import { SharedModule } from './../shared/shared.module';
-import { QuicklinkModule } from 'ngx-quicklink';
 
 import { NavComponent } from './components/nav/nav.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -33,8 +32,7 @@ import { LayoutComponent } from './components/layout/layout.component';
     CommonModule,
     WebsiteRoutingModule,
     SwiperModule,
-    SharedModule,
-    QuicklinkModule
+    SharedModule
   ]
 })
 export class WebsiteModule { }
